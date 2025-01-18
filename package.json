@@ -8,5 +8,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "midi": "^2.0.0",
+    "midi-file": "^1.2.4"
+  }
 }
