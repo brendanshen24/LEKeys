@@ -38,8 +38,7 @@ export default function Home() {
                     </div>
 
 
-                    <div
-                        className="flex flex-col justify-center items-center min-w-80 min-h-72 bg-[#f8f8f8] rounded-2xl border border-[#eaeaea] gap-5 overflow-hidden mt-3">
+                    <div className="flex flex-col justify-center items-center min-w-80 min-h-72 bg-[#f8f8f8] rounded-2xl border border-[#eaeaea] gap-5 overflow-hidden mt-3">
                         <div className="flex flex-col justify-center items-center">
                             <div className="text-brandgreen text-xs">
                                 Checkpoint 1
@@ -59,7 +58,7 @@ export default function Home() {
                         <div className="text-center text-black text-xs font-normal w-56">
                             Practice the most basic chord in piano and unlock new Checkpoints!
                         </div>
-                        <button className="pt-3 pb-3 pl-5 pr-5 bg-brandprimary rounded-lg border border-black">
+                        <button className="pt-3 pb-3 pl-5 pr-5 bg-brandprimary rounded-lg border border-black" onClick={() => {redirect('/song/cmaj')}}>
                             Get Started
                         </button>
                     </div>
@@ -89,7 +88,7 @@ export default function Home() {
                                 height={49.544}
                             />
                         </div>
-                        <button className="pt-3 pb-3 pl-6 pr-6 bg-brandprimary rounded-lg border border-black">
+                        <button className="pt-3 pb-3 pl-6 pr-6 bg-brandprimary rounded-lg border border-black" onClick={() => {redirect('/song/mary')}}>
                             Learn
                         </button>
                     </div>
@@ -112,12 +111,12 @@ export default function Home() {
                                 height={49.544}
                             />
                         </div>
-                        <button className="pt-3 pb-3 pl-6 pr-6 bg-brandprimary rounded-lg border border-black">
+                        <button className="pt-3 pb-3 pl-6 pr-6 bg-brandprimary rounded-lg border border-black" onClick={() => {redirect('/song/star')}}>
                             Learn
                         </button>
                     </div>
 
-                    <div className="flex flex-col justify-center items-center min-w-80 min-h-72 bg-[#f8f8f8] rounded-2xl border border-[#eaeaea] gap-5 overflow-hidden mt-6">
+                    <div className="flex flex-col justify-center items-center min-w-80 min-h-72 bg-[#f8f8f8] rounded-2xl border border-[#eaeaea] gap-2 overflow-hidden mt-6">
                         <div className="flex flex-col justify-center items-center">
                             <div className="text-brandgreen text-xs">
                                 Hard
@@ -128,40 +127,24 @@ export default function Home() {
                         </div>
                         <div className="flex">
                             <Image
-                                src="/star.svg"
-                                alt="star"
-                                width={181.467}
-                                height={49.544}
+                                src="/oldman.svg"
+                                alt="old man"
+                                width={70.845}
+                                height={125.532}
                             />
                         </div>
-                        <div className="flex gap-4">
+                        <div className="flex gap-4 mt-5">
                             <button className="p-3 bg-secondgreen rounded-lg border border-black flex flex-row gap-2">
                                 <Image src="/circlearrow.svg" alt="circlearrow" width={19} height={19} className="mt-1" />
                                 <div className="text-brandsecondary">
                                     Review
                                 </div>
                             </button>
-                            <button className="pt-3 pb-3 pl-5 pr-5 bg-brandprimary rounded-lg border border-black">
+                            <button className="pt-3 pb-3 pl-5 pr-5 bg-brandprimary rounded-lg border border-black" onClick={() => {redirect('/song/up')}}>
                                 Play Along
                             </button>
                         </div>
                     </div>
-
-                    {/* Button Section */}
-                    {/*<div className="flex flex-col gap-6 mt-4">*/}
-                    {/*    <button*/}
-                    {/*        className="text-black p-5 flex justify-center items-center bg-gray-200 rounded-lg hover:bg-gray-300 transition"*/}
-                    {/*        onClick={callDemo}*/}
-                    {/*    >*/}
-                    {/*        Play Demo*/}
-                    {/*    </button>*/}
-                    {/*    <button*/}
-                    {/*        className="text-black p-5 flex justify-center items-center bg-gray-200 rounded-lg hover:bg-gray-300 transition"*/}
-                    {/*        onClick={callUserInteractive}*/}
-                    {/*    >*/}
-                    {/*        User Play Along*/}
-                    {/*    </button>*/}
-                    {/*</div>*/}
                 </div>
             </div>
         </div>
