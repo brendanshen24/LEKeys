@@ -1,0 +1,29 @@
+{
+  "name": "lekey",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "devsecure": "next dev --experimental-https",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@next/font": "^14.2.15",
+    "easymidi": "^3.1.0",
+    "johnny-five": "^2.1.0",
+    "midi-file": "^1.2.4",
+    "next": "15.1.5",
+    "node-pixel": "^0.11.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.5",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1"
+  }
+}
