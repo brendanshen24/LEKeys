@@ -1,5 +1,7 @@
 # LEKeys
-NextJS, expressJS and NodeJS based piano tutor!
+NextJS, expressJS and NodeJS based piano tutor! 
+
+Built with love by Brendan Shen, Keyaan Vegdani, Josie Trinh, and Kaia Do for nwHacks 2025.
 
 ## Build using
 `pnpm install; node demoServer.js # start the server`
