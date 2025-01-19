@@ -1,18 +1,20 @@
 {
   "name": "nwtest",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "",
+  "main": "testled.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brendanshen24/nwtest.git"
+  },
+  "private": true,
   "dependencies": {
     "easymidi": "^3.1.0",
+    "fs": "0.0.1-security",
     "johnny-five": "^2.1.0",
-    "midi": "^2.0.0",
     "midi-file": "^1.2.4",
     "node-pixel": "^0.11.0"
   }
