@@ -11,7 +11,6 @@ let strip;
 board.on("ready", function () {
     console.log("Board is ready!");
 
-    // Initialize the LED strip
     strip = new pixel.Strip({
         board: this,
         controller: "FIRMATA", // Using the NodePixel Firmata firmware
@@ -26,11 +25,18 @@ board.on("ready", function () {
 
         setInterval(() => {
             strip.color("#000000"); // Turn off all LEDs
-            strip.pixel(index).color("blue"); // Light up one LED
+
+            strip.pixel(15).color("white"); // Light up one LED
+            strip.pixel(17).color("blue"); // Light up one LED
+            strip.pixel(49).color("white"); // Light up one LED
+
+
             strip.show(); // Send the data to the strip
 
-            index = (index + 1) % strip.length; // Move to the next LED
+            //index = (index + 1) % strip.length; // Move to the next LED
         }, 100); // Change the LED every 100 ms
+
+
     });
 });
 
