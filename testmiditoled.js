@@ -18,43 +18,44 @@ let strip;
 
 // Mapping MIDI notes to LED indices
 const midiToThirtySix = {
-    36: 15,
-    38: 16,
-    40: 17,
-    41: 18,
-    43: 19,
-    45: 20,
-    47: 21,
-    48: 22,
-    50: 23,
-    52: 24,
-    53: 25,
-    55: 26,
-    57: 27,
-    59: 28,
-    60: 29,
-    62: 30,
-    64: 31,
+    36: 49,
+    38: 48,
+    40: 47,
+    41: 46,
+    43: 45,
+    45: 44,
+    47: 43,
+    48: 42,
+    50: 41,
+    52: 40,
+    53: 39,
+    55: 38,
+    57: 37,
+    59: 36,
+    60: 35,
+    62: 34,
+    64: 33,
     65: 32,
-    67: 33,
-    69: 34,
-    71: 35,
-    72: 36,
-    74: 37,
-    76: 38,
-    77: 39,
-    79: 40,
-    81: 41,
-    83: 42,
-    84: 43,
-    86: 44,
-    88: 45,
-    89: 46,
-    91: 47,
-    93: 48,
-    95: 49,
-    96: 50
+    67: 31,
+    69: 30,
+    71: 29,
+    72: 28,
+    74: 27,
+    76: 26,
+    77: 25,
+    79: 24,
+    81: 23,
+    83: 22,
+    84: 21,
+    86: 20,
+    88: 19,
+    89: 18,
+    91: 17,
+    93: 16,
+    95: 15,
+    96: 14
 };
+
 
 // Read MIDI file into a buffer
 var input = fs.readFileSync('CMajor.mid');
@@ -94,7 +95,7 @@ function scheduleMidiPlayback(strip) {
                 if (ledIndex !== undefined) {
                     setTimeout(() => {
                         console.log(`Playing note: ${event.noteNumber}`);
-                        strip.pixel(ledIndex).color("blue"); // Light up the LED
+                        strip.pixel(ledIndex).color("white"); // Light up the LED
                         strip.show();
 
                         output.send('noteon', {

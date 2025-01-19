@@ -2,7 +2,7 @@ var fs = require('fs');
 var parseMidi = require('midi-file').parseMidi;
 
 // Read MIDI file into a buffer
-var input = fs.readFileSync('file.mid');
+var input = fs.readFileSync('Cmajor.mid');
 
 // Parse it into an intermediate representation
 var parsed = parseMidi(input);

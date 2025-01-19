@@ -21,19 +21,20 @@ board.on("ready", function () {
         console.log("Strip is ready!");
 
         // Example: Set the LED colors in sequence
-        let index = 0;
+        let index = 14;
 
         setInterval(() => {
+            if (index >= 50){
+                index = 14;
+            }
             strip.color("#000000"); // Turn off all LEDs
 
-            strip.pixel(15).color("white"); // Light up one LED
-            strip.pixel(17).color("blue"); // Light up one LED
-            strip.pixel(49).color("white"); // Light up one LED
+            strip.pixel(index).color("white"); // Light up one LED
 
 
             strip.show(); // Send the data to the strip
 
-            //index = (index + 1) % strip.length; // Move to the next LED
+            index = index + 1
         }, 100); // Change the LED every 100 ms
 
 

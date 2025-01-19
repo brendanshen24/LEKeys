@@ -1,147 +1,121 @@
-var fs = require('fs');
-var parseMidi = require('midi-file').parseMidi;
+const fs = require('fs');
+const parseMidi = require('midi-file').parseMidi;
 const five = require("johnny-five");
 const pixel = require("node-pixel");
-const easymidi = require('easymidi');
+const midi = require('midi');
 
-// Set up a new output to the specified MIDI device
-const output = new easymidi.Output('CASIO USB-MIDI');
+const midiInput = new midi.Input();
+const input = new (require('easymidi')).Input(midiInput.getPortName(0));
 
-// Set up the Arduino board
 const board = new five.Board({
     port: "COM7" // Specify the port for the Arduino
 });
 
 let strip;
+let playbackQueue = [];
+let awaitingKey = false;
 
-// Mapping MIDI notes to LED indices
 const midiToThirtySix = {
-    36: 15,
-    38: 16,
-    40: 17,
-    41: 18,
-    43: 19,
-    45: 20,
-    47: 21,
-    48: 22,
-    50: 23,
-    52: 24,
-    53: 25,
-    55: 26,
-    57: 27,
-    59: 28,
-    60: 29,
-    62: 30,
-    64: 31,
+    36: 49,
+    38: 48,
+    40: 47,
+    41: 46,
+    43: 45,
+    45: 44,
+    47: 43,
+    48: 42,
+    50: 41,
+    52: 40,
+    53: 39,
+    55: 38,
+    57: 37,
+    59: 36,
+    60: 35,
+    62: 34,
+    64: 33,
     65: 32,
-    67: 33,
-    69: 34,
-    71: 35,
-    72: 36,
-    74: 37,
-    76: 38,
-    77: 39,
-    79: 40,
-    81: 41,
-    83: 42,
-    84: 43,
-    86: 44,
-    88: 45,
-    89: 46,
-    91: 47,
-    93: 48,
-    95: 49,
-    96: 50
+    67: 31,
+    69: 30,
+    71: 29,
+    72: 28,
+    74: 27,
+    76: 26,
+    77: 25,
+    79: 24,
+    81: 23,
+    83: 22,
+    84: 21,
+    86: 20,
+    88: 19,
+    89: 18,
+    91: 17,
+    93: 16,
+    95: 15,
+    96: 14
 };
 
-// Read MIDI file into a buffer
-var input = fs.readFileSync('CMajor.mid');
+const midiData = fs.readFileSync('Cmajor.mid');
+const parsed = parseMidi(midiData);
 
-// Parse it into an intermediate representation
-var parsed = parseMidi(input);
-
-// Find the tempo
-let microsecondsPerBeat = 500000; // Default to 120 BPM
-parsed.tracks.forEach((track) => {
-    track.forEach((event) => {
-        if (event.type === 'setTempo') {
-            microsecondsPerBeat = event.microsecondsPerBeat;
-        }
-    });
-});
-
-// Convert deltaTime to milliseconds
-function deltaTimeToMs(deltaTime, ticksPerBeat) {
-    const msPerTick = (microsecondsPerBeat / 1000) / ticksPerBeat;
-    return deltaTime * msPerTick;
-}
-
-// State management for LEDs
-const ledStates = {};
-
-// Schedule note events in real time
-function scheduleMidiPlayback(strip) {
-    parsed.tracks.forEach((track, trackIndex) => {
-        console.log(`Track ${trackIndex + 1}`);
-        let currentTimeMs = 0;
-
+function schedulePlayback(strip) {
+    parsed.tracks.forEach((track) => {
         track.forEach((event) => {
-            const ticksPerBeat = parsed.header.ticksPerBeat;
-            const deltaTimeMs = deltaTimeToMs(event.deltaTime, ticksPerBeat);
-            currentTimeMs += deltaTimeMs;
-
             if (event.type === 'noteOn' && event.velocity > 0) {
-                const ledIndex = midiToThirtySix[event.noteNumber];
-                if (ledIndex !== undefined) {
-                    setTimeout(() => {
-                        console.log(`Playing note: ${event.noteNumber}`);
-                        strip.pixel(ledIndex).color("blue"); // Light up the LED
-                        strip.show();
-
-                        // Update LED state
-                        ledStates[event.noteNumber] = true;
-
-                    }, currentTimeMs);
-                }
+                playbackQueue.push({
+                    note: event.noteNumber
+                });
             }
         });
     });
+
+    processPlaybackQueue(strip);
 }
 
-// Listen for noteOff events to turn off LEDs
-function handleNoteOff(input, strip) {
-    input.on('noteon', function (msg) {
-        const note = msg.note;
-        const ledIndex = midiToThirtySix[note];
-        if (ledIndex !== undefined && ledStates[note]) {
-            console.log(`Turning off note: ${note}`);
-            strip.pixel(ledIndex).color("#000000"); // Turn off LED
-            strip.show();
-            ledStates[note] = false;
+function processPlaybackQueue(strip) {
+    if (playbackQueue.length === 0) return;
+
+    const nextEvent = playbackQueue.shift();
+    awaitingKey = true;
+
+    const ledIndex = midiToThirtySix[nextEvent.note];
+    if (ledIndex !== undefined) {
+        strip.pixel(ledIndex).color("white");
+        strip.show();
+    }
+
+    input.on('noteon', (msg) => {
+        if (msg.note === nextEvent.note && awaitingKey) {
+            awaitingKey = false;
+
+            console.log(`Correct key pressed: ${msg.note}`);
+
+            if (ledIndex !== undefined) {
+                setTimeout(() => {
+                    strip.pixel(ledIndex).color("#000000");
+                    strip.show();
+                }, 200);
+            }
+
+            processPlaybackQueue(strip);
         }
     });
 }
 
-// Set up the Arduino board and LED strip
 board.on("ready", function () {
     console.log("Board is ready!");
 
     strip = new pixel.Strip({
         board: this,
-        controller: "FIRMATA", // Using the NodePixel Firmata firmware
-        strips: [{ pin: 11, length: 50 }] // Set the pin and number of LEDs
+        controller: "FIRMATA",
+        strips: [{ pin: 11, length: 50 }]
     });
 
     strip.on("ready", function () {
         console.log("Strip is ready!");
-        strip.color("#000000"); // Clear all LEDs
+        strip.color("#000000");
         strip.show();
 
-        // Start MIDI playback
-        scheduleMidiPlayback(strip);
-
-        // Set up MIDI input listener
-        handleNoteOff(output, strip);
+        schedulePlayback(strip);
     });
 });
 
