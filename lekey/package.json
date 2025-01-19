@@ -11,7 +11,11 @@
   },
   "dependencies": {
     "@next/font": "^14.2.15",
+    "easymidi": "^3.1.0",
+    "johnny-five": "^2.1.0",
+    "midi-file": "^1.2.4",
     "next": "15.1.5",
+    "node-pixel": "^0.11.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

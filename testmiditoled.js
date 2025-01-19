@@ -58,7 +58,7 @@ const midiToThirtySix = {
 
 
 // Read MIDI file into a buffer
-var input = fs.readFileSync('CMajor.mid');
+var input = fs.readFileSync('up.mid');
 
 // Parse it into an intermediate representation
 var parsed = parseMidi(input);

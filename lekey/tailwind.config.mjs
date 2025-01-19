@@ -10,6 +10,11 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        brandgreen: "#00A60E",
+        brandgrey: "#8D8D8D",
+        brandprimary:"#2C2C2C",
+        brandsecondary: "#212121",
+        secondgreen: "#81DF89"
       },
     },
   },
